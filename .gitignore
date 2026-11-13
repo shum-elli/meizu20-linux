@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.img
+*.dtb
+*.tar*
+*.zip
+*.log
+firmware-export/
+modem_pr/
+full_backup/
+build/
+release/

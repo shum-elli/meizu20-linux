@@ -1,0 +1,17 @@
+{
+  "sha256": "4fd3098031624b640658c9a38a0d090c552ad63d6ec2540c23628ec78fd8dd74",
+  "bytes": 137516,
+  "added_nodes": [
+    "/reserved-memory/ipa-imem@146a8000"
+  ],
+  "changed_properties": [
+    [
+      "/soc@0/ipa@3f40000",
+      "phandle"
+    ],
+    [
+      "/soc@0/ipa@3f40000",
+      "memory-region"
+    ]
+  ]
+}

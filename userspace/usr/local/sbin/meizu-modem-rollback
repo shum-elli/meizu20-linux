@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+nmcli connection modify meizu-mobile-data connection.autoconnect no 2>/dev/null || true
+nmcli connection down meizu-mobile-data 2>/dev/null || true
+systemctl disable --now meizu-modem.service
+/usr/local/sbin/meizu-modem-bringup stop
+systemctl disable --now rmtfs.service tqftpserv.service
+echo 'Original modem-blocked startup restored; supplemental files retained for research.'

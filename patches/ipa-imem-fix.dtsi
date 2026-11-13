@@ -1,0 +1,19 @@
+/*
+ * Meizu 20 SM8550 IPA firmware accesses the IMEM page at IOVA 0x146a9000.
+ * The original vendor DT specifies qcom,additional-mapping:
+ *     <0x146a8000 0x146a8000 0x2000>
+ * Express the same identity mapping using mainline IOMMU reserved regions.
+ */
+/ {
+    reserved-memory {
+        ipa_imem_fix: ipa-imem@146a8000 {
+            reg = <0x0 0x146a8000 0x0 0x2000>;
+            iommu-addresses = <&{/soc@0/ipa@3f40000} 0x0 0x146a8000 0x0 0x2000>;
+            no-map;
+        };
+    };
+};
+
+&{/soc@0/ipa@3f40000} {
+    memory-region = <&{/reserved-memory/ipa-fw-region@9b080000} &ipa_imem_fix>;
+};

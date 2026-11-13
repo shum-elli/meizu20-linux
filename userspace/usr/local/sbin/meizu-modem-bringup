@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+dev=/sys/bus/platform/devices/4080000.remoteproc
+driver=/sys/bus/platform/drivers/qcom_q6v5_pas
+if test "${1:-start}" = stop; then
+    for rp in "$dev"/remoteproc/remoteproc*; do
+        test -f "$rp/state" || continue
+        if test "$(cat "$rp/state")" = running; then printf 'stop\n' > "$rp/state"; fi
+    done
+    if test -e "$dev/driver"; then printf '4080000.remoteproc\n' > "$driver/unbind"; fi
+    printf 'none\n' > "$dev/driver_override"
+    exit 0
+fi
+test -f /usr/lib/firmware/qcom/sm8550/meizu/modem_pr/so/521_0_0.mbn
+test -e /dev/qcom_rmtfs_mem1
+if test ! -e "$dev/driver"; then
+    printf '\n' > "$dev/driver_override"
+    printf '4080000.remoteproc\n' > "$driver/bind"
+fi
+for rp in "$dev"/remoteproc/remoteproc*; do
+    test -f "$rp/state" || continue
+    if test "$(cat "$rp/state")" = offline; then printf 'start\n' > "$rp/state"; fi
+    test "$(cat "$rp/state")" = running
+    echo 'Meizu modem running; online state and data sessions are managed by ModemManager.'
+    exit 0
+done
+echo 'No modem remoteproc was created' >&2
+exit 1

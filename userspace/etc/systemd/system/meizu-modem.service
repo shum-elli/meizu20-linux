@@ -1,0 +1,15 @@
+[Unit]
+Description=Meizu 20 modem with original supplemental firmware
+Requires=rmtfs.service tqftpserv.service
+After=meizu-pas.service rmtfs.service tqftpserv.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/meizu-modem-bringup start
+ExecStop=/usr/local/sbin/meizu-modem-bringup stop
+TimeoutStartSec=90
+TimeoutStopSec=30
+
+[Install]
+WantedBy=graphical.target
